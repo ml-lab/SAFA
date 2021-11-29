@@ -98,12 +98,12 @@ class GADEUpBlock2d(nn.Module):
     Geometrically-Adaptive Denormalization Upsampling block for use in decoder.
     """
 
-    def __init__(self, in_features, out_features, kernel_size=3, padding=1, groups=1, z_size=159):
+    def __init__(self, in_features, out_features, kernel_size=3, padding=1, groups=1, z_size=1280):
         super(GADEUpBlock2d, self).__init__()
 
         self.conv = nn.Conv2d(in_channels=in_features, out_channels=out_features, kernel_size=kernel_size,
                               padding=padding, groups=groups)
-    
+
         self.norm = nn.BatchNorm2d(out_features, affine=True)
 
         self.fc_1 = nn.Linear(z_size, out_features)

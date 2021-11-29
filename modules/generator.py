@@ -45,7 +45,7 @@ class OcclusionAwareGenerator(nn.Module):
 
         self.bottleneck = torch.nn.Sequential()
         in_features = min(max_features, block_expansion * (2 ** num_down_blocks))
-        
+
         for i in range(num_bottleneck_blocks):
             self.bottleneck.add_module('r' + str(i), ResBlock2d(in_features, kernel_size=(3, 3), padding=(1, 1)))
 
@@ -121,7 +121,7 @@ class OcclusionAwareGenerator(nn.Module):
                     occlusion_map2 = F.interpolate(occlusion_map2, size=out.shape[2:], mode='bilinear')
                 output_dict['occlusion_map1'] = occlusion_map1
                 output_dict['occlusion_map2'] = occlusion_map2
- 
+
             output_dict['deformation'] = deformation
             output_dict["deformed"] = self.deform_input(source_image, deformation)
 
@@ -139,15 +139,15 @@ class OcclusionAwareGenerator(nn.Module):
             for i in range(len(self.down_blocks)):
                 enc_driving = self.down_blocks[i](enc_driving)
             out = enc_driving * (1 - blend_mask) + out * blend_mask
-        
+
         # Bottleneck block
         out = self.bottleneck(out)
-        
+
         # Contextual Attention (CA) Module
         ca_occ = occlusion_map2
         # 1. CA branch
         ca_out = self.context_atten_layer(out, out, 1.0 - ca_occ)
-        # 2. Dilation pyramid branch 
+        # 2. Dilation pyramid branch
         tmp = []
         for i in range(self.num_dilation_group):
             tmp.append(self.__getattr__('conv{}'.format(str(i).zfill(2)))(out))

@@ -18,8 +18,8 @@ class DenseMotionNetwork(nn.Module):
         self.mask = nn.Conv2d(self.hourglass.out_filters, num_kp + 2, kernel_size=(7, 7), padding=(3, 3))
 
         if estimate_occlusion_map:
+            self.occlusion = nn.Conv2d(self.hourglass.out_filters, 1, kernel_size=(7, 7), padding=(3, 3))
             self.occlusion1 = nn.Conv2d(self.hourglass.out_filters, 1, kernel_size=(7, 7), padding=(3, 3))
-            self.occlusion2 = nn.Conv2d(self.hourglass.out_filters, 1, kernel_size=(7, 7), padding=(3, 3))
         else:
             self.occlusion = None
 
@@ -96,7 +96,7 @@ class DenseMotionNetwork(nn.Module):
                 driving_normal_map = self.down(driving_normal_map)
 
         bs, _, h, w = source_image.shape
- 
+
         out_dict = dict()
         heatmap_representation = self.create_heatmap_representations(source_image, kp_driving, kp_source)
         sparse_motion = self.create_sparse_motions(source_image, kp_driving, kp_source)
@@ -112,11 +112,11 @@ class DenseMotionNetwork(nn.Module):
             reenact = reenact.unsqueeze(1)
             source_normal_map = source_normal_map.unsqueeze(1)
             driving_normal_map = driving_normal_map.unsqueeze(1)
-            heatmap_representation = torch.cat([heatmap_representation, 
+            heatmap_representation = torch.cat([heatmap_representation,
                                                 -(driving_normal_map[:, :, 2:, :, :] - source_normal_map[:, :, 2:, :, :])],
                                                 dim=1)
             deformed_source = torch.cat([deformed_source,
-                                        reenact], 
+                                        reenact],
                                         dim=1)
             out_dict['motion_field'] = motion_field
 
@@ -136,8 +136,8 @@ class DenseMotionNetwork(nn.Module):
         out_dict['deformation'] = deformation
 
         if self.occlusion:
-            occlusion_map1 = torch.sigmoid(self.occlusion1(prediction))
+            occlusion_map1 = torch.sigmoid(self.occlusion(prediction))
             out_dict['occlusion_map1'] = occlusion_map1
-            occlusion_map2 = torch.sigmoid(self.occlusion2(prediction))
+            occlusion_map2 = torch.sigmoid(self.occlusion1(prediction))
             out_dict['occlusion_map2'] = occlusion_map2
         return out_dict

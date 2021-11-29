@@ -111,10 +111,6 @@ class FramesDataset(Dataset):
             path = os.path.join(self.root_dir, name)
 
         video_name = os.path.basename(path)
-        
-        f = open(os.path.join(self.meta_dir, video_name.split('.')[0] + '.pkl'), 'rb')
-        video_meta = pickle.load(f)
-        f.close()
 
         if self.is_train and os.path.isdir(path):
             frames = os.listdir(path)
@@ -135,6 +131,9 @@ class FramesDataset(Dataset):
 
         out = {}
         if self.is_train:
+            f = open(os.path.join(self.meta_dir, video_name.split('.')[0] + '.pkl'), 'rb')
+            video_meta = pickle.load(f)
+            f.close()
             source = np.array(video_array[0], dtype='float32')
             driving = np.array(video_array[1], dtype='float32')
 
