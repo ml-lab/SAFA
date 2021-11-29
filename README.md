@@ -1,9 +1,11 @@
-# Official Pytorch Implementation of 3DV2021 paper: [**SAFA: Structure Aware Face Animation**](https://arxiv.org/abs/2111.04928).
-
+# SAFA: Structure Aware Face Animation (3DV2021)
 ![Screenshot](assets/video_rec1.gif)
 ![Screenshot](assets/video_rec2.gif)
 ![Screenshot](assets/source_images.png)
 ![Screenshot](assets/motion_trans.gif)
+
+Official Pytorch Implementation of 3DV2021 paper: [**SAFA: Structure Aware Face Animation**](https://arxiv.org/abs/2111.04928).
+![Screenshot](assets/overview.png)
 
 ## Getting Started
 ```
@@ -31,6 +33,8 @@ b. Download `head_template.obj`, `landmark_embedding.npy`, `uv_face_eye_mask.png
 
 c. Download SAFA model checkpoint from [Google Drive](https://drive.google.com/drive/folders/1sXzcAf9mIK08WISz9tjYBocaoTSA3ts_?usp=sharing) and put it under `./ckpt`.
 
+d. (Optional) Download the pretrained face parser from [face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch) and put it under `./face_parsing/cp`.
+
 ### 2. Demos
 We provide demos for animation and face swap.
 
@@ -40,8 +44,7 @@ python animation_demo --config config/end2end.yaml --checkpoint path/to/checkpoi
 ```
 
 b. Face swap demo
-We adopt [face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch) for indicating the face regions in both the source and driving images. Download their pretrained model and put it under `./face_parsing/cp`.
- 
+We adopt [face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch) for indicating the face regions in both the source and driving images.
 
 For preprocessed source images and driving videos, run:
 ```
