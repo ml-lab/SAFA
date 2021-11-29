@@ -34,14 +34,14 @@ b. Download `head_template.obj`, `landmark_embedding.npy`, `uv_face_eye_mask.png
 
 c. Download SAFA model checkpoint from [Google Drive](https://drive.google.com/drive/folders/1sXzcAf9mIK08WISz9tjYBocaoTSA3ts_?usp=sharing) and put it under `./ckpt`.
 
-d. (Optional) Download the pretrained face parser from [face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch) and put it under `./face_parsing/cp`.
+d. (Optional, required by the face swap demo) Download the pretrained face parser from [face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch) and put it under `./face_parsing/cp`.
 
 ### 2. Demos
 We provide demos for animation and face swap.
 
 a. Animation demo
 ```
-python animation_demo --config config/end2end.yaml --checkpoint path/to/checkpoint --source_image_pth path/to/source_image --driving_video_pth path/to/driving_video --relative --adapt_scale --find_best_frame
+python animation_demo.py --config config/end2end.yaml --checkpoint path/to/checkpoint --source_image_pth path/to/source_image --driving_video_pth path/to/driving_video --relative --adapt_scale --find_best_frame
 ```
 
 b. Face swap demo
@@ -49,11 +49,11 @@ We adopt [face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTor
 
 For preprocessed source images and driving videos, run:
 ```
-python face_swap_demo --config config/end2end.yaml --checkpoint path/to/checkpoint --source_image_pth path/to/source_image --driving_video_pth path/to/driving_video
+python face_swap_demo.py --config config/end2end.yaml --checkpoint path/to/checkpoint --source_image_pth path/to/source_image --driving_video_pth path/to/driving_video
 ```
 For arbitrary images and videos, we use a face detector to detect and swap the corresponding face parts. Cropped images will be resized to 256*256 in order to fit to our model.
 ```
-python face_swap_demo --config config/end2end.yaml --checkpoint path/to/checkpoint --source_image_pth path/to/source_image --driving_video_pth path/to/driving_video --use_detection
+python face_swap_demo.py --config config/end2end.yaml --checkpoint path/to/checkpoint --source_image_pth path/to/source_image --driving_video_pth path/to/driving_video --use_detection
 ```
 
 ## Training
@@ -69,7 +69,7 @@ CUDA_VISIBLE_DEVICES="0,1,2,3" python -m torch.distributed.launch --nproc_per_no
 CUDA_VISIBLE_DEVICES="0,1,2,3" python -m torch.distributed.launch --nproc_per_node 4 run_ddp.py --config config/end2end.yaml --tdmm_checkpoint path/to/tdmm_checkpoint_pth
 ```
 
-## Inference
+## Evaluation/Inference
 
 ### Video reconstrucion
 ```
@@ -87,10 +87,13 @@ python tdmm_inference.py --data_dir directory/to/images --tdmm_checkpoint path/t
 ## Dataset and Preprocessing
 We use [**VoxCeleb1**](https://www.robots.ox.ac.uk/~vgg/data/voxceleb/vox1.html) to train and evaluate our model. Original Youtube videos are downloaded, cropped and splited following the instructions from [video-preprocessing](https://github.com/AliaksandrSiarohin/video-preprocessing). 
 
-To obtain the facial landmark meta data from the preprocessed videos, run:
+a. To obtain the facial landmark meta data from the preprocessed videos, run:
 ```
 python video_ldmk_meta.py --video_dir directory/to/preprocessed_videos out_dir directory/to/output_meta_files
 ```
+
+b. Extract images from videos
+
 
 ## Citation
 If you find our work useful to your research, please consider citing:
