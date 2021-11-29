@@ -1,6 +1,6 @@
 BSD 3-Clause License
 
-Copyright (c) 2020, Bo Li
+Copyright (c) 2021, Qiulin Wang
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 --------------------------- LICENSE FOR First Order Motion Model --------------------------------
+
 ## creative commons
 
 # Attribution-NonCommercial 4.0 International
@@ -194,7 +195,6 @@ d. Nothing in this Public License constitutes or may be interpreted as a limitat
 
 
 --------------------------- LICENSE FOR FLAME and DECA --------------------------------
-License
 
 Software Copyright License for non-commercial scientific research purposes
 Please read carefully the following terms and conditions and any accompanying documentation before you download
