@@ -1,29 +1,43 @@
 # SAFA
 
-Official Pytorch Implementation of 3DV2021 paper: **SAFA: Structure Aware Face Animation**.
+Official Pytorch Implementation of 3DV2021 paper: [**SAFA: Structure Aware Face Animation**](https://arxiv.org/abs/2111.04928).
+![Screenshot](assets/video_rec1.gif)
+![Screenshot](assets/video_rec2.gif)
+![Screenshot](assets/source_images.png)
+![Screenshot](assets/motion_trans.gif)
+
+## Getting Started
+```
+git clone https://github.com/Qiulin-W/SAFA.git
+```
 
 ## Installation
 Python 3.6 or higher is recommended. 
 
-### Install PyTorch3D 
+### 1. Install PyTorch3D 
 Follow the guidance from: https://github.com/facebookresearch/pytorch3d/blob/master/INSTALL.md.
 
-### Install other dependencies
+### 2. Install other dependencies
 To install other dependencies run:
 ```
 pip install -r requirements.txt
 ```
 
+## Usage
 
-## Demos
+### 1. Data Preparation
+a. Download [FLAME model](https://flame.is.tue.mpg.de/), choose FLAME 2020 and unzip it, put 'generic_model.pkl' under ./modules/data
+b. Download head_template.obj, landmark_embedding.npy, uv_face_eye_mask.png and uv_face_mask.png from [DECA/data](https://github.com/YadiraF/DECA/tree/master/data), and put them under ./module/data
+
+### 2. Demos
 We provide demos for animation and face swap.
 
-### Animation demo
+a. Animation demo
 ```
 python animation_demo --config config/end2end.yaml --checkpoint path/to/checkpoint --source_image_pth path/to/source_image --driving_video_pth path/to/driving_video --relative --adapt_scale --find_best_frame
 ```
 
-### Face swap demo
+b. Face swap demo
 We adopt [face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch) for indicating the face regions in both the source and driving images.
  
 For preprocessed source images and driving videos, run:
@@ -74,6 +88,16 @@ To obtain the facial landmark meta data from the preprocessed videos, run:
 python video_ldmk_meta.py --video_dir directory/to/preprocessed_videos out_dir directory/to/output_meta_files
 ```
 
-## Reference
+## Acknowledgement
 Codes are heavily borrowed from [First Order Motion Model](https://github.com/AliaksandrSiarohin/first-order-model). Some codes are also borrowed from [DECA](https://github.com/YadiraF/DECA), [generative-inpainting-pytorch](https://github.com/daa233/generative-inpainting-pytorch), [face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch), [video-preprocessing](https://github.com/AliaksandrSiarohin/video-preprocessing)
 
+## Citation
+If you find our work useful to your research, please consider citing:
+```
+@article{wang2021safa,
+  title={SAFA: Structure Aware Face Animation},
+  author={Wang, Qiulin and Zhang, Lu and Li, Bo},
+  journal={arXiv preprint arXiv:2111.04928},
+  year={2021}
+}
+```
