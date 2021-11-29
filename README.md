@@ -1,10 +1,11 @@
 # SAFA: Structure Aware Face Animation (3DV2021)
+Official Pytorch Implementation of 3DV2021 paper: [**SAFA: Structure Aware Face Animation**](https://arxiv.org/abs/2111.04928).
+
 ![Screenshot](assets/video_rec1.gif)
 ![Screenshot](assets/video_rec2.gif)
 ![Screenshot](assets/source_images.png)
 ![Screenshot](assets/motion_trans.gif)
 
-Official Pytorch Implementation of 3DV2021 paper: [**SAFA: Structure Aware Face Animation**](https://arxiv.org/abs/2111.04928).
 ![Screenshot](assets/overview.png)
 
 ## Getting Started
@@ -103,9 +104,9 @@ If you find our work useful to your research, please consider citing:
 ```
 
 ## License
-
+Please refer to the [LICENSE](LICENSE.md) file.
 
 
 ## Acknowledgement
 Codes are heavily borrowed from [First Order Motion Model](https://github.com/AliaksandrSiarohin/first-order-model). 
-Some codes are also borrowed from [DECA](https://github.com/YadiraF/DECA), [generative-inpainting-pytorch](https://github.com/daa233/generative-inpainting-pytorch), [face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch), [video-preprocessing](https://github.com/AliaksandrSiarohin/video-preprocessing)
+Some codes are also borrowed from [DECA](https://github.com/YadiraF/DECA), [generative-inpainting-pytorch](https://github.com/daa233/generative-inpainting-pytorch), [face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch), [video-preprocessing](https://github.com/AliaksandrSiarohin/video-preprocessing).
