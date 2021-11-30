@@ -92,7 +92,10 @@ a. To obtain the facial landmark meta data from the preprocessed videos, run:
 python video_ldmk_meta.py --video_dir directory/to/preprocessed_videos out_dir directory/to/output_meta_files
 ```
 
-b. Extract images from videos
+b. (Optional) Extract images from videos:
+```
+python extract_imgs.py
+```
 
 
 ## Citation
