@@ -95,25 +95,37 @@ def make_animation(source_image, driving_video,
             driving_codedict = tdmm.encode(driving_frame)
 
             # calculate relative 3D motion in the code space
-            delta_shape = source_codedict['shape']# + driving_codedict['shape'] - driving_init_codedict['shape']
-            delta_exp = source_codedict['exp'] + driving_codedict['exp'] - driving_init_codedict['exp']
-            delta_pose = source_codedict['pose'] + driving_codedict['pose'] - driving_init_codedict['pose']
-            delta_source_verts, _, _ = tdmm.flame(shape_params=delta_shape, 
-                                           expression_params=delta_exp, 
+            if relative:
+                delta_shape = source_codedict['shape'] + driving_codedict['shape'] - driving_init_codedict['shape']
+                delta_exp = source_codedict['exp'] + driving_codedict['exp'] - driving_init_codedict['exp']
+                delta_pose = source_codedict['pose'] + driving_codedict['pose'] - driving_init_codedict['pose']
+            else:
+                delta_shape = source_codedict['shape']
+                delta_exp = driving_codedict['exp']
+                delta_pose = driving_codedict['pose']
+
+            delta_source_verts, _, _ = tdmm.flame(shape_params=delta_shape,
+                                           expression_params=delta_exp,
                                            pose_params=delta_pose)
-            delta_scale = source_codedict['cam'][:, 0:1] * driving_codedict['cam'][:, 0:1] / driving_init_codedict['cam'][:, 0:1]
-            delta_trans = source_codedict['cam'][:, 1:] + driving_codedict['cam'][:, 1:] - driving_init_codedict['cam'][:, 1:]
+
+            if relative:
+                delta_scale = source_codedict['cam'][:, 0:1] * driving_codedict['cam'][:, 0:1] / driving_init_codedict['cam'][:, 0:1]
+                delta_trans = source_codedict['cam'][:, 1:] + driving_codedict['cam'][:, 1:] - driving_init_codedict['cam'][:, 1:]
+            else:
+                delta_scale = driving_codedict['cam'][:, 0:1]
+                delta_trans = driving_codedict['cam'][:, 1:]
+
             delta_cam = torch.cat([delta_scale, delta_trans], dim=1)
             delta_source_transformed_verts = batch_orth_proj(delta_source_verts, delta_cam)
             delta_source_transformed_verts[:, :, 1:] = - delta_source_transformed_verts[:, :, 1:]
 
             render_ops = tdmm.render(source_transformed_verts, delta_source_transformed_verts, source_albedo)
-                                   
+
             # calculate relative kp
             kp_norm = normalize_kp(kp_source=kp_source, kp_driving=kp_driving,
                                    kp_driving_initial=kp_driving_initial, use_relative_movement=relative,
                                    use_relative_jacobian=relative, adapt_movement_scale=adapt_movement_scale)
-            out = generator(source, kp_source=kp_source, kp_driving=kp_norm, render_ops=render_ops, 
+            out = generator(source, kp_source=kp_source, kp_driving=kp_norm, render_ops=render_ops,
                                         driving_features=driving_codedict)
             del out['sparse_deformed']
             out['kp_source'] = kp_source

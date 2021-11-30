@@ -19,7 +19,7 @@ Python 3.6 or higher is recommended.
 ### 1. Install PyTorch3D 
 Follow the guidance from: https://github.com/facebookresearch/pytorch3d/blob/master/INSTALL.md.
 
-### 2. Install other dependencies
+### 2. Install Other Dependencies
 To install other dependencies run:
 ```
 pip install -r requirements.txt
@@ -59,7 +59,7 @@ python face_swap_demo.py --config config/end2end.yaml --checkpoint path/to/check
 ## Training
 We modify the distributed traininig framework used in that of the [First Order Motion Model](https://github.com/AliaksandrSiarohin/first-order-model). Instead of using torch.nn.DataParallel (DP), we adopt torch.distributed.DistributedDataParallel (DDP) for faster training and more balanced GPU memory load. The training procedure is divided into two steps: (1) Pretrain the 3DMM estimator, (2) End-to-end Training.
 
-### 3DMM estimator pre-training
+### 3DMM Estimator Pre-training
 ```
 CUDA_VISIBLE_DEVICES="0,1,2,3" python -m torch.distributed.launch --nproc_per_node 4 run_ddp.py --config config/pretrain.yaml
 ```
@@ -69,17 +69,17 @@ CUDA_VISIBLE_DEVICES="0,1,2,3" python -m torch.distributed.launch --nproc_per_no
 CUDA_VISIBLE_DEVICES="0,1,2,3" python -m torch.distributed.launch --nproc_per_node 4 run_ddp.py --config config/end2end.yaml --tdmm_checkpoint path/to/tdmm_checkpoint_pth
 ```
 
-## Evaluation/Inference
+## Evaluation / Inference
 
-### Video reconstrucion
+### Video Reconstrucion
 ```
 python run_ddp.py --config config/end2end.yaml --checkpoint path/to/checkpoint --mode reconstruction
 ``` 
-### Image animation
+### Image Animation
 ```
 python run_ddp.py --config config/end2end.yaml --checkpoint path/to/checkpoint --mode animation
 ``` 
-### 3D face reconstruction
+### 3D Face Reconstruction
 ```
 python tdmm_inference.py --data_dir directory/to/images --tdmm_checkpoint path/to/tdmm_checkpoint_pth
 ```
@@ -92,11 +92,10 @@ a. To obtain the facial landmark meta data from the preprocessed videos, run:
 python video_ldmk_meta.py --video_dir directory/to/preprocessed_videos out_dir directory/to/output_meta_files
 ```
 
-b. (Optional) Extract images from videos:
+b. (Optional) Extract images from videos for 3DMM pretraining:
 ```
 python extract_imgs.py
 ```
-
 
 ## Citation
 If you find our work useful to your research, please consider citing:

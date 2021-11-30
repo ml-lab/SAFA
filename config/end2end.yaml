@@ -6,7 +6,7 @@ dataset_params:
   pairs_list: data/pair_list.csv
   augmentation_params:
     flip_param:
-      horizontal_flip: True
+      horizontal_flip: False
       time_flip: True
     jitter_param:
       brightness: 0.1
@@ -41,7 +41,7 @@ model_params:
     block_expansion: 32
     max_features: 512
     num_blocks: 4
-
+    use_kp: True
 
 train_params:
   num_epochs: 50
@@ -51,9 +51,9 @@ train_params:
   lr_discriminator: 2.0e-4
   lr_kp_detector: 2.0e-4
   lr_tdmm: 2.0e-4
-  batch_size: 12
+  batch_size: 16
   scales: [1, 0.5, 0.25, 0.125]
-  checkpoint_freq: 5
+  checkpoint_freq: 10
   transform_params:
     sigma_affine: 0.05
     sigma_tps: 0.005
